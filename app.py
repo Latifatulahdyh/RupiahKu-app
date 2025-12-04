@@ -7,6 +7,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 from PIL import Image
 import tensorflow as tf
+import gdown
 
 # Konfigurasi halaman
 st.set_page_config(page_title="Sistem Pengenalan Uang Rupiah", layout="wide")
@@ -149,12 +150,33 @@ st.markdown("""
 # -------------------- Load Model --------------------
 @st.cache_resource
 def load_money_model():
+    """Load model dari Google Drive (download sekali saja)"""
+    model_path = "best_model_final.keras"
+    
+    # Jika model belum ada di server, download dari Google Drive
+    if not os.path.exists(model_path):
+        st.info("🔄 Sedang mengunduh model AI... (hanya sekali, ~10-15 detik)")
+        
+        try:
+            # File ID dari Google Drive Anda
+            file_id = "1qT9OcVo4QjWN5tmec32W61fdfpwkwdAP"
+            url = f"https://drive.google.com/uc?id={file_id}"
+            
+            # Download model
+            gdown.download(url, model_path, quiet=False)
+            st.success("✅ Model berhasil diunduh!")
+            
+        except Exception as e:
+            st.error(f"❌ Gagal mengunduh model: {e}")
+            st.info("💡 cek koneksi internet Anda")
+            return None
+    
+    # Load model ke memory
     try:
-       # Update path ke model baru
-        return load_model("best_model_final.keras") # Path relatif dari folder root
+        return load_model(model_path)
     except Exception as e:
-       st.error(f"Gagal load model: {e}")
-       return None
+        st.error(f"❌ Gagal memuat model: {e}")
+        return None
    
 model = load_money_model()
 
