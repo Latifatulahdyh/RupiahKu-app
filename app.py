@@ -3,8 +3,9 @@ import numpy as np
 import os
 import random
 import time
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+import keras
+from keras.models import load_model
+from keras.preprocessing import image
 from PIL import Image
 import tensorflow as tf
 import gdown
@@ -150,34 +151,43 @@ st.markdown("""
 # -------------------- Load Model --------------------
 @st.cache_resource
 def load_money_model():
-    """Load model dari Google Drive (download sekali saja)"""
+    """Load model dari Google Drive dengan Keras 3"""
     model_path = "best_model_final.keras"
     
-    # Jika model belum ada di server, download dari Google Drive
+    # Download model jika belum ada
     if not os.path.exists(model_path):
         st.info("🔄 Sedang mengunduh model AI... (hanya sekali, ~10-15 detik)")
         
         try:
-            # File ID dari Google Drive Anda
             file_id = "1qT9OcVo4QjWN5tmec32W61fdfpwkwdAP"
             url = f"https://drive.google.com/uc?id={file_id}"
             
-            # Download model
             gdown.download(url, model_path, quiet=False)
             st.success("✅ Model berhasil diunduh!")
             
         except Exception as e:
             st.error(f"❌ Gagal mengunduh model: {e}")
-            st.info("💡 cek koneksi internet Anda")
             return None
     
-    # Load model ke memory
+    # Load model dengan Keras 3
     try:
-        return load_model(model_path)
+        # Tambahkan parameter compile=False untuk menghindari warning
+        model = load_model(model_path, compile=False)
+        
+        # Compile ulang model
+        model.compile(
+            optimizer='adam',
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy']
+        )
+        
+        return model
+        
     except Exception as e:
         st.error(f"❌ Gagal memuat model: {e}")
+        st.info("💡 Error detail: Model mungkin di-train dengan Keras version berbeda")
         return None
-   
+
 model = load_money_model()
 
 # -------------------- Mapping --------------------
