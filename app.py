@@ -16,6 +16,23 @@ st.set_page_config(page_title="Sistem Pengenalan Uang Rupiah", layout="wide")
 # CSS untuk tampilan yang sangat sederhana dan ramah anak
 st.markdown("""
 <style>
+    /* ========== FORCE LIGHT THEME ========== */
+    /* Override Streamlit dark mode */
+    [data-testid="stAppViewContainer"] {
+        background: linear-gradient(45deg, #FFE5E5, #E5F3FF, #E5FFE5, #FFF5E5) !important;
+        background-size: 400% 400% !important;
+        animation: gradientShift 6s ease infinite !important;
+    }
+    
+    [data-testid="stAppViewContainer"] > .main {
+        background: transparent !important;
+    }
+    
+    /* Force text color ke gelap */
+    .stMarkdown, p, span, div, h1, h2, h3, label {
+        color: #2C3E50 !important;
+    }
+    
     /* Sembunyikan header dan footer streamlit */
     header[data-testid="stHeader"] {display: none;}
     .main > div {padding-top: 2rem;}
@@ -37,7 +54,7 @@ st.markdown("""
     .big-title {
         font-size: 4rem !important;
         text-align: center;
-        color: #FF1493;
+        color: #FF1493 !important;
         text-shadow: 4px 4px 0px #FFD700;
         margin: 25px 0;
         font-weight: 900;
@@ -53,7 +70,7 @@ st.markdown("""
     .main-title {
         font-size: 4rem;
         text-align: center;
-        color: #FF1493;
+        color: #FF1493 !important;
         text-shadow: 4px 4px 0px #FFD700;
         font-weight: 900;
         margin-top: 30px;
@@ -69,13 +86,13 @@ st.markdown("""
     .system-desc {
         font-size: 1.6rem;
         text-align: center;
-        color: #2C3E50;
+        color: #2C3E50 !important;
         font-weight: 500;
         margin: 20px auto;
         max-width: 800px;
     }
             
-/* Tombol besar “Mulai Belajar” */
+    /* Tombol besar "Mulai Belajar" */
     .stButton > button {
         display: block;
         margin: 0 auto;
@@ -100,7 +117,7 @@ st.markdown("""
         padding: 40px;
         border-radius: 30px;
         text-align: center;
-        color: white;
+        color: white !important;
         font-size: 2rem;
         margin: 25px 0;
         box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -117,7 +134,7 @@ st.markdown("""
     .big-text {
         font-size: 1.8rem;
         font-weight: bold;
-        color: #2C3E50;
+        color: #2C3E50 !important;
         text-align: center;
         margin: 15px 0;
     }
@@ -128,7 +145,6 @@ st.markdown("""
         text-align: center;
         margin: 15px 0;
     }
-    
     
     /* Garis pemisah */
     .sidebar-line {
@@ -144,6 +160,18 @@ st.markdown("""
         font-weight: bold;
         color: #000000 !important;
         margin-bottom: 15px;
+    }
+    
+    /* Override Streamlit default widgets */
+    .stCameraInput > div {
+        background-color: white !important;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    
+    /* Spinner text color */
+    .stSpinner > div {
+        color: #2C3E50 !important;
     }
 </style>
 """, unsafe_allow_html=True)
