@@ -565,6 +565,6 @@ for nominal in nominals:
 st.markdown("""
 <hr>
 <div style="text-align: center; padding: 20px; font-size: 1.3rem; color:#2C3E50;">
-<small>© 2024 Sistem Deteksi Uang Indonesia | Powered by TensorFlow & Streamlit</small>
+<small>© 2025 RupiahKu - Sistem Pengenalan Uang Kertas Rupiah TE 2022 | Developed by Latifatul Ahadiyah</small>
 </div>
 """, unsafe_allow_html=True)
